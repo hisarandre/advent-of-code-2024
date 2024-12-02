@@ -12,12 +12,11 @@ public class Day02 {
     public static void solve() throws IOException {
         String inputFile = "input02.txt";
         String fileContent = InputHelper.readInput(inputFile);
-        int sum = code(fileContent, true);
+        int sum = code(fileContent, false);
         System.out.println("The solution is: " + sum);
     }
 
     public static int code(String fileContent, Boolean isPartOne) {
-
         int sum = 0;
         String[] lines = fileContent.split("\n");
 
@@ -25,62 +24,52 @@ public class Day02 {
 
             String[] numbers = line.trim().split("\\s+");
 
-            int[] intArray = Arrays.stream(numbers)
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
+            List<Integer> report = Arrays.stream(numbers)
+                    .map(Integer::parseInt)
+                    .toList();
 
-            Boolean isValid = false;
+            Boolean safe = false;
 
-            for (int i = 0; i < intArray.length; i++) {
-                isValid = isValid(intArray);
+            for (int i = 0; i < report.size(); i++) {
+                safe = isSafe(report);
             }
 
-            if (!isPartOne && !isValid){
-                for (int i = 0; i < intArray.length; i++) {
-                    int[] modifiedArray = removeElementAtIndex(intArray, i);
-                    isValid = isValid(modifiedArray);
-                    if (isValid) {
-                        break;
-                    }
+            if (!isPartOne && !safe){
+                for (int i = 0; i < report.size() ; i++) {
+                    List<Integer> newReport = new ArrayList<>(report);
+                    newReport.remove(i);
+                    safe = isSafe(newReport);
+                    if (safe) break;
                 }
             }
 
-            if (isValid) {
-                sum++;
-            }
+            if (safe) sum++;
         }
         return sum;
     }
 
-    public static Boolean isValid(int[] intArray) {
-        boolean isValid = true;
+    public static Boolean isSafe(List<Integer> report) {
+        boolean safe = true;
+        boolean isIncreasing = report.get(0) < report.get(1);
 
-        boolean isIncreasing = intArray[0] < intArray[1];
-
-        for (int i = 0; i < intArray.length - 1; i++) {
-            int difference = Math.abs(intArray[i] - intArray[i + 1]);
+        for (int i = 0; i < report.size() - 1; i++) {
+            int difference = Math.abs(report.get(i) - report.get(i + 1));
 
             if (difference < 1 || difference > 3) {
-                isValid = false;
+                safe = false;
                 break;
             }
 
-            if (isIncreasing && intArray[i] >= intArray[i + 1]) {
-                isValid = false;
+            if (isIncreasing && report.get(i) >= report.get(i + 1)) {
+                safe = false;
                 break;
             }
-            if (!isIncreasing && intArray[i] <= intArray[i + 1]) {
-                isValid = false;
+
+            if (!isIncreasing && report.get(i) <= report.get(i + 1)) {
+                safe = false;
                 break;
             }
         }
-        return isValid;
-    }
-
-    public static int[] removeElementAtIndex(int[] array, int index) {
-        int[] newArray = new int[array.length - 1];
-        System.arraycopy(array, 0, newArray, 0, index);
-        System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
-        return newArray;
+        return safe;
     }
 }
