@@ -38,15 +38,13 @@ public class Day01 {
                 .toList();
 
         if (isPartOne) {
-            sum = calculateDifference(rightNbSorted, leftNbSorted, sum);
+            return calculateDifference(rightNbSorted, leftNbSorted, sum);
         } else {
-            sum = calculateSimularity(rightNbSorted, leftNbSorted, sum);
+            return calculateSimularity(rightNbSorted, leftNbSorted, sum);
         }
-
-        return sum;
     }
 
-    public static int calculateDifference(List<Integer> rightNbSorted, List<Integer>  leftNbSorted, int sum) {
+    public static int calculateDifference(List<Integer> rightNbSorted, List<Integer> leftNbSorted, int sum) {
         for (int i = 0; i < rightNbSorted.size(); i++) {
             int difference = rightNbSorted.get(i) - leftNbSorted.get(i);
             sum += Math.abs(difference);
@@ -54,7 +52,7 @@ public class Day01 {
         return sum;
     }
 
-    public static int calculateSimularity(List<Integer> rightNbSorted, List<Integer>  leftNbSorted, int sum) {
+    public static int calculateSimularity(List<Integer> rightNbSorted, List<Integer> leftNbSorted, int sum) {
         for (Integer integer : rightNbSorted) {
             long count = leftNbSorted.stream()
                     .filter(n -> n.equals(integer))
