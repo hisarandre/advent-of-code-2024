@@ -1,4 +1,4 @@
-package com.challenge.adventofcode.day02;
+package com.challenge.adventofcode.twentyFour;
 
 import com.challenge.adventofcode.helper.InputHelper;
 

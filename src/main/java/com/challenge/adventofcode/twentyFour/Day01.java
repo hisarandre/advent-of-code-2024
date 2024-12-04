@@ -1,4 +1,4 @@
-package com.challenge.adventofcode.day01;
+package com.challenge.adventofcode.twentyFour;
 
 import com.challenge.adventofcode.helper.InputHelper;
 import java.io.IOException;

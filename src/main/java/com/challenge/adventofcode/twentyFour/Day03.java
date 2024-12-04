@@ -1,4 +1,4 @@
-package com.challenge.adventofcode.day03;
+package com.challenge.adventofcode.twentyFour;
 
 import com.challenge.adventofcode.helper.InputHelper;
 
@@ -18,13 +18,13 @@ public class Day03 {
 
     public static int code(String fileContent, Boolean isPartOne) {
         String[] lines = fileContent.split("\n");
-        String singleLine = fileContent.replaceAll("\n", " ");
+        String line = fileContent.replaceAll("\n", " ");
 
         if (!isPartOne) {
-            singleLine = cleanLine(singleLine);
+            line = cleanLine(line);
         }
 
-        return calculateMul(singleLine);
+        return calculateMul(line);
     }
 
     public static int calculateMul(String line) {
@@ -72,22 +72,22 @@ public class Day03 {
         return sum;
     }
 
-    public static String cleanLine(String singleLine){
+    public static String cleanLine(String line){
         List<String> doLines = new ArrayList<>();
 
         String doDontRegex = "don't\\(.*?\\)|do\\(.*?\\)"; // look for do() or don't()
         Pattern doDontPattern = Pattern.compile(doDontRegex);
-        Matcher doDontMatcher = doDontPattern.matcher(singleLine);
+        Matcher doDontMatcher = doDontPattern.matcher(line);
 
         StringBuilder cleanedLine = new StringBuilder();
         boolean isEnabled = true;
         int prevIndex = 0;
 
         while (doDontMatcher.find()) {
-            String beforeDoDont = singleLine.substring(prevIndex, doDontMatcher.start());
+            String startLine = line.substring(prevIndex, doDontMatcher.start());
 
             if (isEnabled) {
-                cleanedLine.append(beforeDoDont);
+                cleanedLine.append(startLine);
             }
 
             //System.out.println("last match: " + doDontMatcher.group());
@@ -96,7 +96,7 @@ public class Day03 {
             prevIndex = doDontMatcher.end();
         }
 
-        String endLine = singleLine.substring(prevIndex);
+        String endLine = line.substring(prevIndex);
 
         if (isEnabled) {
             cleanedLine.append(endLine);

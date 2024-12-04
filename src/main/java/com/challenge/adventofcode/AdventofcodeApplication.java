@@ -1,8 +1,7 @@
 package com.challenge.adventofcode;
 
-import com.challenge.adventofcode.day03.Day03;
-import com.challenge.adventofcode.day04.Day04;
-import org.springframework.boot.SpringApplication;
+import com.challenge.adventofcode.twentyFour.Day04;
+import com.challenge.adventofcode.twentyFour.Day05;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
@@ -11,6 +10,9 @@ import java.io.IOException;
 public class AdventofcodeApplication {
 	
 	public static void main(String[] args) throws IOException {
-		Day04.solve();
+		Day04 day04 = new Day04();
+		Day05 day05 = new Day05();
+
+		day05.solve();
 	}
 }
