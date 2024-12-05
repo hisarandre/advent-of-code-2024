@@ -16,8 +16,8 @@ public class Day04 extends Solver {
         String[] lines = fileContent.split("\n");
         int rows = lines.length;
         int cols = lines[0].length();
-        char[][] map = convertToMap(lines, rows, cols);
 
+        char[][] map = convertToMap(lines, rows, cols);
         char[] xmas = {'X', 'M', 'A', 'S'};
         char[] xmasReversed = {'S', 'A', 'M', 'X'};
 

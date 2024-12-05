@@ -29,18 +29,13 @@ public class Day01 {
             }
         }
 
-        List<Integer> rightNbSorted = rightNb.stream()
-                .sorted()
-                .toList();
-
-        List<Integer> leftNbSorted = leftNb.stream()
-                .sorted()
-                .toList();
+        rightNb.sort(Integer::compareTo);
+        leftNb.sort(Integer::compareTo);
 
         if (isPartOne) {
-            return calculateDifference(rightNbSorted, leftNbSorted, sum);
+            return calculateDifference(rightNb, leftNb, sum);
         } else {
-            return calculateSimularity(rightNbSorted, leftNbSorted, sum);
+            return calculateSimularity(rightNb, leftNb, sum);
         }
     }
 

@@ -13,7 +13,7 @@ public abstract class Solver {
         this.isPartOne = isPartOne;
     }
 
-    public abstract int code(String fileContent, Boolean isPartOne);
+    public abstract int code(String fileContent, Boolean isPartOne) throws IOException;
 
     public void solve() throws IOException {
         String fileContent = InputHelper.readInput(inputFile);
