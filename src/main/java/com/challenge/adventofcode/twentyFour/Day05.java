@@ -15,13 +15,34 @@ public class Day05 extends Solver{
 
     public int code(String fileContent, Boolean isPartOne) throws IOException {
         int sum = 0;
-
         String rulesContent = InputHelper.readInput("rule05.txt");
         String[] lines = fileContent.split("\n");
         String[] rules = rulesContent.split("\n");
-        List<String> validLines = new ArrayList<>();
-
         Map<Integer, Set<Integer>> rulesMap = convertRules(rules);
+
+        List<String> validLines = checkLines(rulesMap, lines, isPartOne);
+        List<String> orderedLines = new ArrayList<>();
+
+        if (!isPartOne){
+            for (String line : validLines) {
+                List<Integer> pageNumbers = Arrays.stream(line.split(","))
+                        .map(Integer::parseInt)
+                        .toList();
+
+                String orderedLine = sort(pageNumbers, rulesMap);
+                orderedLines.add(orderedLine);
+            }
+
+            sum = calculateMiddleNb(orderedLines);
+        } else {
+            sum = calculateMiddleNb(validLines);
+        }
+
+        return sum;
+    }
+
+    public static List<String> checkLines(Map<Integer, Set<Integer>> rulesMap, String[] lines, boolean isPartOne){
+        List<String> validLines = new ArrayList<>();
 
         for (String line : lines){
             boolean isCorrect = true;
@@ -37,17 +58,24 @@ public class Day05 extends Solver{
                     Set<Integer> mustBeBefore = rulesMap.get(nbToCheck);
                     isCorrect = checkCorrectOrder(pageNumbers, nbToCheck, mustBeBefore);
 
-                    if(!isCorrect){
+                    if (!isCorrect){
+                        if(!isPartOne){
+                            validLines.add(line);
+                        }
                         break;
                     }
                 }
             }
 
-            if (isCorrect){
+            if (isCorrect && isPartOne){
                 validLines.add(line);
             }
         }
+        return validLines;
+    }
 
+    public static int calculateMiddleNb(List<String> validLines){
+        int sum = 0;
         for (String line : validLines){
             List<Integer> pageNumbers = Arrays.stream(line.split(","))
                     .map(Integer::parseInt)
@@ -57,8 +85,6 @@ public class Day05 extends Solver{
             int middleNb =  pageNumbers.get(middleIndex);
             sum = sum + middleNb;
         }
-
-
         return sum;
     }
 
@@ -90,23 +116,31 @@ public class Day05 extends Solver{
         return rulesMap;
     }
 
-//    public static void bubbleSort(List<Integer> pageNumbers){
-//        boolean swapped;
-//
-//        for (int pageNb = 0; pageNb < pageNumbers.size() - 1; pageNb++) {
-//            swapped = false;
-//            for (int i = 0; i < pageNumbers.size() - pageNb - 1; pageNb++) {
-//                if (pageNumbers.get(i) > pageNumbers.get(i +1)) {
-//                    int temp = pageNumbers.get(i);
-//                    pageNumbers.set(i, pageNumbers.get(i + 1));
-//                    pageNumbers.set(i + 1, temp);
-//                    swapped = true;
-//                }
-//            }
-//
-//            if (!swapped) break;
-//        }
-//
-//        return swapped;
-//    }
+    public static String sort(List<Integer> pageNumbers, Map<Integer, Set<Integer>> rulesMap) {
+        List<Integer> numbers = new ArrayList<>(pageNumbers);
+
+        for (int i = 0; i < numbers.size(); i++) {
+            int current = numbers.get(i);
+
+            if (rulesMap.containsKey(current)) {
+                Set<Integer> mustBeBefore = rulesMap.get(current);
+
+                for (int j = 0; j < i; j++) {
+                    int previous = numbers.get(j);
+
+                    if (mustBeBefore.contains(previous)) {
+                        numbers.set(j, current);
+                        numbers.set(i, previous);
+                        i = -1;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return numbers.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+    }
+
 }
