@@ -12,54 +12,34 @@ public class Day06 extends Solver {
 
     public int code(String fileContent, Boolean isPartOne) throws IOException {
         String[] lines = fileContent.split("\n");
-
-        int yMaxBorder = lines.length - 1;
-        int xMaxBorder = lines[0].length() - 1;
-
-        if (isPartOne){
-            int sum = 1;
-
-            Map.Entry<Plan, Guard> result = convertToMapAndGuard(xMaxBorder, yMaxBorder, lines);
-            Plan plan = result.getKey();
-            Guard guard = result.getValue();
-
-            sum = calculateGuardDistinctPosition(guard, plan);
-            return sum;
-        }
-
-        int sum = 0;
-
-        Map.Entry<Plan, Guard> result = convertToMapAndGuard(xMaxBorder, yMaxBorder, lines);
+        Map.Entry<Plan, Guard> result = convertToMapAndGuard(lines);
         Plan plan = result.getKey();
         Guard guard = result.getValue();
-        List<Obstruction> newObstructions = createNewObstructions(lines);
+        int sum = 0;
+
+        if (isPartOne){
+            return calculateGuardDistinctPosition(guard, plan);
+        }
+
+        List<Obstruction> newObstructions = generateNewObstructions(lines);
 
         int startX = guard.getPositionX();
         int startY = guard.getPositionY();
         Direction startDirection = guard.getDirection();
 
         for (Obstruction newObstruction : newObstructions) {
-
             plan.addObstruction(newObstruction);
             guard = guard.reset(startX, startY, startDirection);
 
-            System.out.println("obs: " + newObstruction.getPositionY());
-
-            boolean isProbability = moveGuardTillOriginalPosition(guard, plan);
-
-            if (isProbability){
-                System.out.println("ADD ONE");
-                sum ++;
-            }
+            boolean isStuck = moveGuardInLoop(guard, plan);
+            if (isStuck) sum++;
 
             plan.removeObstruction(newObstruction);
         }
-
-
         return sum;
     }
 
-    public static List<Obstruction> createNewObstructions(String[] lines) {
+    public static List<Obstruction> generateNewObstructions(String[] lines) {
         List<Obstruction> newObstructions = new ArrayList<>();
         for (int y = 0; y < lines.length; y++) {
             char[] letters = lines[y].toCharArray();
@@ -75,7 +55,7 @@ public class Day06 extends Solver {
 
 
 
-    public static boolean moveGuardTillOriginalPosition(Guard guard, Plan plan) {
+    public static boolean moveGuardInLoop(Guard guard, Plan plan) {
         Map<Position, Direction> visitedPositions = new HashMap<>();
         Position startingPosition = new Position(guard.getPositionX(), guard.getPositionY());
         Direction startDirection = guard.getDirection();
@@ -107,7 +87,7 @@ public class Day06 extends Solver {
             }
         }
     }
-    
+
     public static int calculateGuardDistinctPosition(Guard guard, Plan plan){
         Set<String> visitedPos = new HashSet<>();
         visitedPos.add(guard.getPositionX() + "," + guard.getPositionY());
@@ -142,7 +122,10 @@ public class Day06 extends Solver {
         return sum;
     }
 
-    public static Map.Entry<Plan, Guard> convertToMapAndGuard(int xMaxBorder, int yMaxBorder, String[] lines){
+    public static Map.Entry<Plan, Guard> convertToMapAndGuard(String[] lines){
+        int yMaxBorder = lines.length - 1;
+        int xMaxBorder = lines[0].length() - 1;
+
         Guard guard = new Guard();
         List<Obstruction> obstructions = new ArrayList<>();
 
