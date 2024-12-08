@@ -10,7 +10,7 @@ import java.util.*;
 public class Day08 extends Solver{
 
     public Day08() {
-        super("input08.txt",true );
+        super("input08.txt",false );
     }
 
     public int code(String fileContent, Boolean isPartOne) throws IOException {
@@ -35,8 +35,17 @@ public class Day08 extends Solver{
                     int diffY = next[1] - current[1];
 
                     if(isPartOne){
-                        sum += createNode(current, next, diffY, diffX, xMaxBorder, yMaxBorder, antinodes, coords);
+                        sum += createNode(true, current, next, diffY, diffX, xMaxBorder, yMaxBorder, antinodes, coords);
                     } else {
+
+                        int maxIteration = 1000;
+                        int k = 1;
+
+                        while (maxIteration > 0){
+                            sum += createNode(false, current, next, diffY * k, diffX * k, xMaxBorder, yMaxBorder, antinodes, coords);
+                            k++;
+                            maxIteration--;
+                        }
 
                     }
                 }
@@ -45,7 +54,7 @@ public class Day08 extends Solver{
         return sum;
     }
 
-    public static int createNode(int[] current, int[] next, int diffY, int diffX, int xMaxBorder, int yMaxBorder, List<int[]> antinodes, List<int[]> coords){
+    public static int createNode(boolean isPartOne, int[] current, int[] next, int diffY, int diffX, int xMaxBorder, int yMaxBorder, List<int[]> antinodes, List<int[]> coords){
         int sum = 0;
 
         int currentAntinodeX = current[0] - diffX;
@@ -67,10 +76,22 @@ public class Day08 extends Solver{
             sum++;
         }
 
+        if(!isPartOne){
+            if (checkIfValid(current, xMaxBorder, yMaxBorder, antinodes, coords)) {
+                antinodes.add(current);
+                sum++;
+            }
+
+            if (checkIfValid(next, xMaxBorder, yMaxBorder, antinodes, coords)) {
+                antinodes.add(next);
+                sum++;
+            }
+        }
+
         return sum;
     }
     public static boolean checkIfValid(int[] antinode, int xMaxBorder, int yMaxBorder, List<int[]> antinodes, List<int[]> coords ) {
-        return isInsideMap(antinode[0], antinode[1], xMaxBorder, yMaxBorder) && !containsArray(antinodes, antinode) && !containsArray(coords, antinode);
+        return isInsideMap(antinode[0], antinode[1], xMaxBorder, yMaxBorder) && !containsArray(antinodes, antinode);
     }
 
     public static boolean isInsideMap(int nodeX, int nodeY, int xMaxBorder, int yMaxBorder) {
