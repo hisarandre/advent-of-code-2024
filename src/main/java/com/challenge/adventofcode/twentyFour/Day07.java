@@ -69,7 +69,7 @@ public class Day07 {
     }
 
     private static BigInteger calculateOperations(List<BigInteger> numbers, String[] operations) {
-        BigInteger result = numbers.get(0);
+        BigInteger result = numbers.getFirst();
         for (int i = 0; i < operations.length; i++) {
             String operation = operations[i];
             BigInteger nextNumber = numbers.get(i + 1);
