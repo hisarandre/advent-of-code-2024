@@ -1,9 +1,6 @@
 package com.challenge.adventofcode;
 
-import com.challenge.adventofcode.twentyFour.Day04;
-import com.challenge.adventofcode.twentyFour.Day05;
-import com.challenge.adventofcode.twentyFour.Day07;
-import com.challenge.adventofcode.twentyFour.Day08;
+import com.challenge.adventofcode.twentyFour.*;
 import com.challenge.adventofcode.twentyFour.day06.Day06;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,7 +15,8 @@ public class AdventofcodeApplication {
 		Day06 day06 = new Day06();
 		Day07 day07 = new Day07();
 		Day08 day08 = new Day08();
+		Day09 day09 = new Day09();
 
-		day08.solve();
+		day09.solve();
 	}
 }
