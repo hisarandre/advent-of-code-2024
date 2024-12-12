@@ -10,13 +10,7 @@ import java.io.IOException;
 public class AdventofcodeApplication {
 	
 	public static void main(String[] args) throws IOException {
-		Day04 day04 = new Day04();
-		Day05 day05 = new Day05();
-		Day06 day06 = new Day06();
-		Day07 day07 = new Day07();
-		Day08 day08 = new Day08();
-		Day09 day09 = new Day09();
-
-		day09.solve();
+		Day11 day11 = new Day11();
+		day11.solve();
 	}
 }

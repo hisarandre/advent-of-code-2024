@@ -23,10 +23,7 @@ public class Day09{
         String[] lastLineGenerated = firstLine;
 
         if(!isPartOne){
-            //System.out.println(Arrays.toString(nextLine));
-
             lastLineGenerated = generateNextLinePartTwo(nextLine);
-            //System.out.println(Arrays.toString(test));
         }
 
         if(isPartOne){
@@ -58,8 +55,8 @@ public class Day09{
 
     public static String[] generateNextLinePartTwo(String[] line) {
         int fileCount = countFiles(line);
-        
-        // Process files from highest ID to lowest
+
+        // read files from highest to lowest
         for (int fileId = fileCount ; fileId >= 0; fileId--) {
             // Find the current location of the file
             int[] fileInfo = findFile(line, fileId);
@@ -69,18 +66,13 @@ public class Day09{
             // If file not found, continue to next file
             if (fileStart == -1) continue;
 
-            // Find a suitable free space to the left
+            // Find a free space to the left
             int freeSpaceStart = findFreeSpaceToLeft(line, fileStart, fileLength);
 
-            // Move the file if a suitable free space is found
+            // Move the file if free space found
             if (freeSpaceStart != -1) {
-                // Copy the file content
                 String[] fileCopy = Arrays.copyOfRange(line, fileStart, fileStart + fileLength);
-
-                // Clear the original file location
                 Arrays.fill(line, fileStart, fileStart + fileLength, ".");
-
-                // Place the file in the new location
                 System.arraycopy(fileCopy, 0, line, freeSpaceStart, fileLength);
             }
         }
@@ -90,9 +82,7 @@ public class Day09{
 
 
     private static int findFreeSpaceToLeft(String[] line, int currentStart, int fileLength) {
-        // Look for the left free space that can fit the file
         for (int i = 0; i < currentStart; i++) {
-            // Check if it can fit the entire file starting at this position
             boolean canFit = true;
             for (int j = 0; j < fileLength; j++) {
                 if (i + j >= line.length || !line[i + j].equals(".")) {
@@ -100,14 +90,10 @@ public class Day09{
                     break;
                 }
             }
-
-            // If found a valid position, return it
             if (canFit) {
                 return i;
             }
         }
-
-        // No position found
         return -1;
     }
 
@@ -121,7 +107,6 @@ public class Day09{
             }
             previousBlock = block;
         }
-
         return count;
     }
 
@@ -129,14 +114,10 @@ public class Day09{
         int currentFileId = 0;
 
         for (int i = 0; i < blocks.length; i++) {
-            // Vérifier si on rencontre un bloc non "."
             if (!blocks[i].equals(".")) {
-                // Convertir le bloc en entier
                 int blockFileId = Integer.parseInt(blocks[i]);
 
-                // Vérifier si c'est le fichier recherché
                 if (blockFileId == fileId) {
-                    // Calculer la longueur du fichier
                     int fileLength = 1;
                     for (int j = i + 1; j < blocks.length && blocks[j].equals(blocks[i]); j++) {
                         fileLength++;
@@ -144,7 +125,6 @@ public class Day09{
                     return new int[]{i, fileLength};
                 }
 
-                // Avancer jusqu'à la fin du fichier actuel
                 while (i < blocks.length && !blocks[i].equals(".") && blocks[i].equals(String.valueOf(blockFileId))) {
                     i++;
                 }
