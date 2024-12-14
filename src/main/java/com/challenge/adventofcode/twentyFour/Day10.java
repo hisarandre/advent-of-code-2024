@@ -1,5 +1,7 @@
 package com.challenge.adventofcode.twentyFour;
 
+import com.challenge.adventofcode.helper.InputHelper;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -13,7 +15,7 @@ public class Day10 extends Solver{
         int sum = 0;
         String[] lines = fileContent.split("\n");
 
-        int[][] map = convertToMap(lines);
+        int[][] map = InputHelper.convertToMap(lines);
 
         return findAllPaths(map, isPartOne);
     }
@@ -77,19 +79,5 @@ public class Day10 extends Solver{
             }
         }
         return validPaths;
-    }
-
-    public static int[][] convertToMap(String[] lines){
-        int rows = lines.length;
-        int cols = lines[0].length();
-        int[][] map = new int[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                map[i][j] = lines[i].charAt(j) - '0';
-            }
-        }
-
-        return map;
     }
 }

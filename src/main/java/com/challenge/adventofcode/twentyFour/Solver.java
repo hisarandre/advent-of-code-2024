@@ -20,4 +20,6 @@ public abstract class Solver {
         int sum = code(fileContent, isPartOne);
         System.out.println("The solution is: " + sum);
     }
+
+
 }

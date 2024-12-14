@@ -9,8 +9,8 @@ import java.io.IOException;
 @SpringBootApplication
 public class AdventofcodeApplication {
 	
-	public static void main(String[] args) throws IOException {
-		Day11 day11 = new Day11();
-		day11.solve();
+	public static void main(String[] args) throws Exception {
+		Day12 day12 = new Day12();
+		day12.solve();
 	}
 }
