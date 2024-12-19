@@ -1,9 +1,7 @@
 package com.challenge.adventofcode.twentyFour.day12;
 
-import com.challenge.adventofcode.twentyFour.day06.Direction;
-import com.challenge.adventofcode.twentyFour.day06.Position;
-
-import java.util.List;
+import com.challenge.adventofcode.commun.Direction;
+import com.challenge.adventofcode.commun.Position;
 
 public class Region {
 

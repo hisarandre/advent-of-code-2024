@@ -1,4 +1,4 @@
-package com.challenge.adventofcode.twentyFour.day06;
+package com.challenge.adventofcode.commun;
 
 import java.util.Objects;
 

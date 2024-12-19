@@ -1,7 +1,6 @@
 package com.challenge.adventofcode.twentyFour.day06;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
+import com.challenge.adventofcode.commun.Direction;
 
 public class Guard {
 

@@ -1,4 +1,6 @@
 package com.challenge.adventofcode.twentyFour.day06;
+import com.challenge.adventofcode.commun.Direction;
+import com.challenge.adventofcode.commun.Position;
 import com.challenge.adventofcode.twentyFour.Solver;
 
 import java.io.IOException;

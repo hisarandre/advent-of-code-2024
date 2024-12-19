@@ -41,8 +41,6 @@ public class Day12 extends Solver {
 
                 sum += sides * region.getArea();
             }
-
-
         }
 
         return sum;
@@ -76,7 +74,6 @@ public class Day12 extends Solver {
                 if (grid[x][y] == 1) {
 
                     if (x == 0 || grid[x - 1][y] != 1) {
-
                         if (!isTopSegment) {
                             sides++;
                             isTopSegment = true;
@@ -136,7 +133,7 @@ public class Day12 extends Solver {
                         isRightSegment = false;
                     }
                 } else {
-                    // Reset segments when encountering a gap
+                    // Reset segments when there is a gap
                     isLeftSegment = false;
                     isRightSegment = false;
                 }
@@ -217,10 +214,8 @@ public class Day12 extends Solver {
         int rows = map.length;
         int cols = map[0].length;
 
-        // Directions for moving up, down, left, right
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-        // Start DFS from each cell
         for (int x = 0; x < rows; x++) {
             for (int y = 0; y < cols; y++) {
                 String regionType = map[x][y];
